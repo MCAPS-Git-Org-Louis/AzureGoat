@@ -60,7 +60,11 @@ jobs:
             -backend-config="resource_group_name=${{ secrets.AZURE_RESOURCE_GROUP }}" \
             -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
             -backend-config="container_name=tfstate" \
-            -backend-config="key=azuregoat.tfstate"
+            -backend-config="key=azuregoat.tfstate" \
+            -backend-config="use_oidc=true" \
+            -backend-config="subscription_id=${{ secrets.AZURE_SUBSCRIPTION_ID }}" \
+            -backend-config="tenant_id=${{ secrets.AZURE_TENANT_ID }}" \
+            -backend-config="client_id=${{ secrets.AZURE_CLIENT_ID }}"
 
       - name: Terraform Plan
         run: terraform plan -var="resource_group=${{ secrets.AZURE_RESOURCE_GROUP }}"
