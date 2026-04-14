@@ -16,7 +16,6 @@ terraform {
 provider "azurerm" {
   features {}
   use_oidc = true
-  storage_use_azuread = true
 }
 
 
@@ -63,6 +62,10 @@ pip3 install --pre azure-cosmos
 python3 modules/module-1/resources/cosmosdb/create-table.py
 EOF
     interpreter = ["/bin/bash", "-c"]
+    environment = {
+      COSMOS_ENDPOINT = azurerm_cosmosdb_account.db.endpoint
+      COSMOS_KEY      = azurerm_cosmosdb_account.db.primary_key
+    }
   }
   depends_on = [azurerm_cosmosdb_account.db,azurerm_storage_account.storage_account,azurerm_storage_container.storage_container]
 }

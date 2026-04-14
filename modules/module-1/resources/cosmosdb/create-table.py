@@ -9,22 +9,11 @@ from azure.cosmos import  CosmosClient, PartitionKey
 
 
 
-# Initialize the Cosmos client
-host = ""
-key = ""
+import os
 
-with open('terraform.tfstate', 'r') as j:
-     contents = json.loads(j.read())
-     print("reading file")
-     for j in contents['resources']:
-         for item in j :
-             if item == 'type' :
-               print(j['type'])
-               if j['type'] == 'azurerm_cosmosdb_account':
-                  for k in j['instances']:
-                     print(j['instances'][0]['attributes']['primary_key'])
-                     key = j['instances'][0]['attributes']['primary_key']
-                     host = j['instances'][0]['attributes']['endpoint']
+# Initialize the Cosmos client
+host = os.environ.get('COSMOS_ENDPOINT', '')
+key = os.environ.get('COSMOS_KEY', '')
 
 # <create_cosmos_client>
 url = str(host)
